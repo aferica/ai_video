@@ -8,13 +8,13 @@ import 'package:ai_video/components/GiggyDialog.dart';
 
 BaseOptions options = new BaseOptions(
   connectTimeout: 5000,
-  receiveTimeout: 3000,
+  receiveTimeout: 10000,
   responseType: ResponseType.plain
 );
 Dio dio = new Dio(options);
 
 class Request {
-  static Future<String> get(String url, BuildContext context,{ bool showLoading = true, bool closeLoading = true, String css, }) async {
+  static Future<String> get(String url, BuildContext context,{ bool showLoading = true, bool closeLoading = true}) async {
     if (showLoading) {
       showDialog<Null>(
         context: context,
@@ -22,9 +22,6 @@ class Request {
       );
     }
     Response res = await dio.get(url);
-    if (css != null) {
-
-    }
 
     if (closeLoading) {
       Navigator.pop(context);

@@ -14,7 +14,7 @@ void main() {
   // 添加dio拦截器
   dio.interceptors.add(InterceptorsWrapper(
     onRequest: (RequestOptions options) async {
-      print('请求地址：' + options.uri.toString().replaceAll(new RegExp(r'\n'), ''));
+      print('请求地址：' + options.uri.toString());
       return options;
     },
     onResponse: (Response response) async {

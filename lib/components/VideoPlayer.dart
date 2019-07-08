@@ -12,7 +12,7 @@ class VideoPlayer extends StatelessWidget {
   VideoPlayer({
     Key key,
     @required this.videoSrc,
-    this.ratio = 16.0 * 9.0
+    this.ratio = 16.0 / 9.0
   }): super(key: key);
 
 

@@ -17,7 +17,7 @@ class LoadingDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return AssetGiffyDialog(
-      image: Image.asset('static/gifs/loading.gif', fit: BoxFit.cover,),
+      image: Image.asset('static/gifs/360429.gif', fit: BoxFit.cover,),
       title: Text(title,
         textAlign: TextAlign.center,
         style: TextStyle(
@@ -52,7 +52,7 @@ class CloseAppDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return AssetGiffyDialog(
-      image: Image.asset('static/images/close_app.jpg', fit: BoxFit.cover,),
+      image: Image.asset('static/gifs/360430.gif', fit: BoxFit.cover,),
       title: Text('确定要离开我吗？',
         textAlign: TextAlign.center,
         style: TextStyle(

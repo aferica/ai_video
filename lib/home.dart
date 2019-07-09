@@ -5,12 +5,11 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:ai_video/components/Loading.dart';
-import 'package:ai_video/components/GiggyDialog.dart';
+import 'package:ai_video/components/Dialog.dart';
 
 import 'package:ai_video/utils/request.dart';
 import 'utils/route.dart';
 import 'package:ai_video/utils/shared_pres.dart';
-import 'utils/url_encode.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -176,8 +175,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ),
                 onTap: (index) {
-                  String bodyJson = '{"id":"${homeData['swiper'][index]['vod_id']}","sourceUrl":"${currentSource['baseUrl']}","sourceName":"${currentSource['title']}"}';;
-                  Routes.router.navigateTo(context, '/video/info');
+                  print(Uri.encodeComponent(currentSource['baseUrl']));
+                  String bodyJson = '{"id":"${homeData['swiper'][index]['vod_id']}","sourceUrl":"${Uri.encodeComponent(currentSource['baseUrl'])}","sourceName":"${currentSource['title']}"}';
+                  Routes.router.navigateTo(context, '/video/info/' + bodyJson);
                 },
               ),
             )
@@ -234,7 +234,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //    Request.get(result['baseUrl'], ).then((res) {
 //      print('yyyyyyyyyyyyy');
 //    });
-    String url = 'https://common.aferica.site/common/video/mac/home?baseUrl=' + UrlEncode().encode(csInfoMap['baseUrl']);
+    String url = 'https://common.aferica.site/common/video/mac/home?baseUrl=' + Uri.encodeComponent(csInfoMap['baseUrl']);
     String homeDataStr = await Request.get(url, context, showLoading: false);
 //    await Request.get(csInfoMap['baseUrl'] + vaInfoMap['list']['mainUrl'], context, showLoading: false);
     setState(() {

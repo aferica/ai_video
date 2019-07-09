@@ -28,7 +28,7 @@ void main() {
       if(e.type == DioErrorType.CANCEL) {
         Fluttertoast.showToast(msg: '用户取消请求', backgroundColor: Colors.black54, fontSize: 12.0);
       }
-      return e;
+      return false;
     }
   ));
   runApp(MyApp());

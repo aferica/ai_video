@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 //import 'package:html/dom.dart';
 //import 'dart:convert';
 
-import 'package:ai_video/components/GiggyDialog.dart';
+import 'package:ai_video/components/Dialog.dart';
 
 BaseOptions options = new BaseOptions(
   connectTimeout: 5000,
@@ -25,6 +25,9 @@ class Request {
 
     if (closeLoading) {
       Navigator.pop(context);
+    }
+    if (res.statusCode != 200) {
+      return '';
     }
     return res.data;
   }

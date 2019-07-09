@@ -7,7 +7,7 @@ import 'package:ai_video/pages/video_info.dart';
 class Routes {
   static Router router;
   static String home = '/';
-  static String videoInfo = '/video/info';
+  static String videoInfo = '/video/info/:data';
 
   static void configureRoutes(Router router) {
     router.define(
@@ -18,11 +18,8 @@ class Routes {
     router.define(
         videoInfo,
         handler: Handler(handlerFunc: (context, params) {
-          print(params);
-          print("xxxxxxxxxxxxxxx");
-//          Map<String, dynamic> map = json.decode(params['data'][0]);
-//          return VideoInfoPage(id: map['id'], sourceName: map['sourceName'], sourceUrl: map['sourceUrl'],);
-          return VideoInfoPage(id: "92372", sourceUrl: "https://www.qtmovie.com", sourceName: "晴天影视",);
+          Map<String, dynamic> map = json.decode(params['data'][0]);
+          return VideoInfoPage(id: map['id'], sourceName: map['sourceName'], sourceUrl: Uri.decodeComponent(map['sourceUrl']),);
         }),
         transitionType: TransitionType.inFromRight
     );

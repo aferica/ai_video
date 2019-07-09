@@ -58,6 +58,7 @@ flutter:
     - static/gifs/360430.gif
     - static/gifs/360431.gif
     - static/images/close_app.jpg
+    - static/images/404.jpg
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

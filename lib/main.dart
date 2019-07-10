@@ -2,23 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:dio/dio.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart';
+import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 
 import 'utils/request.dart';
 import 'utils/route.dart';
 
 void main() {
+  IjkConfig.isLog = true;
+//  IjkConfig.level = LogLevel.verbose;
+  IjkManager.initIJKPlayer();
+
+  // 强制竖屏
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]);
+
   // 添加路由
   final router = new Router();
   Routes.configureRoutes(router);
   Routes.router = router;
   // 添加dio拦截器
   dio.interceptors.add(InterceptorsWrapper(
-    onRequest: (RequestOptions options) async {
+    onRequest: (RequestOptions options) {
       print('请求地址：' + options.uri.toString());
-      return options;
+      DioError e;
+      return e;
+//      return options;
     },
-    onResponse: (Response response) async {
+    onResponse: (Response response) {
       print(response.data.toString());
+      // 对返回数据JSON数据处理
+      // 例如`[{"":""},{"":""},{"":""}]`
+      // 需要使用`{}`处理后才可以转为Map
+      String tempRes = response.data.toString();
+      if(tempRes[0] == '[') {
+        tempRes = '{"reslut":' + tempRes + '}';
+      }
+      Map<String, dynamic> result = json.decode(tempRes.toString());
+      response.data = result;
       return response;
     },
     onError: (DioError e) {

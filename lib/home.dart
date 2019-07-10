@@ -210,8 +210,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String csInfo = await SharedPres.get('currectSourceInfo') ?? '';
     String vaInfo = await SharedPres.get('videoApiInfo') ?? '';
     if (vaInfo == '') {
-      vaInfo = await Request.get('https://common.aferica.site/common/video/index', context, closeLoading: false);
-      Map<String, dynamic> tempVaInfoMap = json.decode(vaInfo);
+      Map<String, dynamic> tempVaInfoMap = await Request.get('https://common.aferica.site/common/video/index', context, closeLoading: false);
       vaInfo = json.encode(tempVaInfoMap['data']);
       await SharedPres.set('videoApiInfo', vaInfo);
     }
@@ -220,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String vdBaseUrl = vaInfoMap['detail']['mainUrl'];
     await SharedPres.set('videoDetailBaseUrl', vdBaseUrl);
     if (csInfo == '') {
-      csInfoMap = vaInfoMap['source'][0];
+      csInfoMap = vaInfoMap['source'][1];
       csInfo = csInfoMap.toString();
       await SharedPres.set('currectSourceInfo', csInfo);
     } else {
@@ -231,14 +230,11 @@ class _MyHomePageState extends State<MyHomePage> {
       currentSource = csInfoMap;
       currentSourceTitle = csInfoMap['title'];
     });
-//    Request.get(result['baseUrl'], ).then((res) {
-//      print('yyyyyyyyyyyyy');
-//    });
     String url = 'https://common.aferica.site/common/video/mac/home?baseUrl=' + Uri.encodeComponent(csInfoMap['baseUrl']);
-    String homeDataStr = await Request.get(url, context, showLoading: false);
+    Map<String, dynamic> homeDataMap = await Request.get(url, context, showLoading: false);
 //    await Request.get(csInfoMap['baseUrl'] + vaInfoMap['list']['mainUrl'], context, showLoading: false);
     setState(() {
-      homeData = json.decode(homeDataStr)['data'];
+      homeData = homeDataMap['data'];
     });
 
   }

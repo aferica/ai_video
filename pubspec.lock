@@ -124,7 +124,7 @@ packages:
       name: flutter_ijkplayer
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.2.9"
+    version: "0.3.0"
   flutter_page_indicator:
     dependency: transitive
     description:

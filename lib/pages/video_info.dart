@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 
 import 'package:ai_video/components/BlankRow.dart';
+import 'package:ai_video/components/ExceptionMessage.dart';
 import 'package:ai_video/components/Loading.dart';
 import 'package:ai_video/components/MyImage.dart';
 import 'package:ai_video/components/ButtonTag.dart';
@@ -29,6 +30,7 @@ class VideoInfoState extends State<VideoInfoPage> {
   List<String> videoServes;
   int selectPlayFrom = 0;
   String selectPlayUrl = '';
+  bool hasError = false;
 
   IjkMediaController controller = IjkMediaController();
 
@@ -55,6 +57,19 @@ class VideoInfoState extends State<VideoInfoPage> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    if (hasError) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('影片信息'),
+        ),
+        body: Center(
+          child: ExceptionMessage(
+            type: 'net',
+          ),
+        ),
+      );
+    }
+
     if (videoInfo == null) {
       return Scaffold(
         body: Center(
@@ -210,7 +225,7 @@ class VideoInfoState extends State<VideoInfoPage> {
                           Divider(height: 1.0,),
                           Container(
                             padding: EdgeInsets.all(5.0),
-                            height: videoInfo['vod_play_url'][selectPlayFrom].length / 4 * ((MediaQuery.of(context).size.width - 30) / 8 + 8),
+                            height: (videoInfo['vod_play_url'][selectPlayFrom].length / 4 + 1) * ((MediaQuery.of(context).size.width - 30) / 8 + 4),
                             width: MediaQuery.of(context).size.width,
                             child: GridView.count(
                               physics: NeverScrollableScrollPhysics(),
@@ -228,12 +243,16 @@ class VideoInfoState extends State<VideoInfoPage> {
                                     hairline: true,
                                     text: urlItem['name'].toString(),
                                     onClick: () async {
+                                      String playUrl = urlItem['url'];
+                                      if (playUrl.indexOf('.m3u8') < 0) {
+                                        playUrl = 'http://api.keletj.com/?url=' + playUrl;
+                                      }
                                       setState(() {
-                                        selectPlayUrl = urlItem['url'];
+                                        selectPlayUrl = playUrl;
                                       });
                                       await controller.reset();
                                       controller.setNetworkDataSource(
-                                          urlItem['url'],
+                                          playUrl,
                                           autoPlay: false
                                       );
                                     },
@@ -259,10 +278,21 @@ class VideoInfoState extends State<VideoInfoPage> {
     String url = 'https://common.aferica.site/common/video/mac/detail?baseUrl=' + Uri.encodeComponent(sourceUrl) + '&id=' + id;
     print(url);
     Map<String, dynamic> videoInfoMap = await Request.get(url, context);
+    print(videoInfoMap);
+    if (videoInfoMap == null || videoInfoMap == {} || videoInfoMap['data'] == null) {
+      setState(() {
+        hasError = true;
+      });
+      return;
+    }
     videoInfoMap['data']['vod_content'] = videoInfoMap['data']['vod_content'].replaceAll(new RegExp(r' '), '').replaceAll(new RegExp(r'\u3000'), '');
+    String playUrl = videoInfoMap['data']['vod_play_url'][0][0]['url'];
+    if (playUrl.indexOf('.m3u8') < 0) {
+      playUrl = 'http://api.keletj.com/?url=' + playUrl;
+    }
     setState(() {
       videoInfo = videoInfoMap['data'];
-      selectPlayUrl = videoInfoMap['data']['vod_play_url'][0][0]['url'];
+      selectPlayUrl = playUrl;
     });
 
     await controller.setNetworkDataSource(

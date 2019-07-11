@@ -32,7 +32,7 @@ class LoadingDialog extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
                   image: DecorationImage(
-                    image: AssetImage('static/gifs/360429.gif'),
+                    image: AssetImage('static/gifs/loading.gif'),
                   ),
                 ),
               ),

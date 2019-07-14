@@ -4,10 +4,13 @@ import 'dart:convert';
 import 'package:ai_video/home.dart';
 import 'package:ai_video/pages/video_info.dart';
 
+import 'package:ai_video/pages/error.dart';
+
 class Routes {
   static Router router;
   static String home = '/';
   static String videoInfo = '/video/info/:data';
+  static String error = '/error';
 
   static void configureRoutes(Router router) {
     router.define(
@@ -21,6 +24,11 @@ class Routes {
           Map<String, dynamic> map = json.decode(params['data'][0]);
           return VideoInfoPage(id: map['id'], sourceName: map['sourceName'], sourceUrl: Uri.decodeComponent(map['sourceUrl']),);
         }),
+        transitionType: TransitionType.inFromRight
+    );
+
+    router.define(error,
+        handler: Handler(handlerFunc: (context, params) => ErrorPage()),
         transitionType: TransitionType.inFromRight
     );
 

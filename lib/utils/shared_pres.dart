@@ -3,7 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPres {
   static Future<String> get(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(key);
+    String value = await prefs.getString(key);
+    print(value);
+    return  prefs.getString(key);
   }
 
   static Future<bool> getBool(String key) async {
@@ -18,6 +20,7 @@ class SharedPres {
 
   static Future<bool> set(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(await prefs.setString('key', value));
     return await prefs.setString('key', value);
   }
 

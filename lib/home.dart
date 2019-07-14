@@ -4,8 +4,10 @@ import 'dart:convert';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:ai_video/components/BlankRow.dart';
 import 'package:ai_video/components/Loading.dart';
 import 'package:ai_video/components/Dialog.dart';
+import 'package:ai_video/components/ExceptionMessage.dart';
 
 import 'package:ai_video/utils/request.dart';
 import 'utils/route.dart';
@@ -42,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var currentSource;
   String currentSourceTitle = '';
   var homeData;
+  bool hasError = false;
 
   @override
   void initState() {
@@ -150,6 +153,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildBody(BuildContext context) {
+    if (hasError) {
+      return Center(
+        child: ExceptionMessage(
+          type: 'net',
+        ),
+      );
+    }
+
     if(homeData == null) {
       return Center(child: Loading(),);
     }
@@ -180,7 +191,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   Routes.router.navigateTo(context, '/video/info/' + bodyJson);
                 },
               ),
-            )
+            ),
+            BlankRow(),
           ],
         ),
       ),
@@ -209,10 +221,13 @@ class _MyHomePageState extends State<MyHomePage> {
     Map<String, dynamic> csInfoMap;
     String csInfo = await SharedPres.get('currectSourceInfo') ?? '';
     String vaInfo = await SharedPres.get('videoApiInfo') ?? '';
+    print(await SharedPres.get('videoApiInfo'));
     if (vaInfo == '') {
       Map<String, dynamic> tempVaInfoMap = await Request.get('https://common.aferica.site/common/video/index', context, closeLoading: false);
       vaInfo = json.encode(tempVaInfoMap['data']);
       await SharedPres.set('videoApiInfo', vaInfo);
+      print(vaInfo);
+      print(await SharedPres.get('videoApiInfo'));
     }
     Map<String, dynamic> vaInfoMap = json.decode(vaInfo);
 

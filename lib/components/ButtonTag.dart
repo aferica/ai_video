@@ -63,6 +63,7 @@ class ButtonTag extends StatelessWidget {
 
     if (type == 'default') {
       color = Colors.white;
+      textColor = Colors.black87;
     } else if (type == 'success') {
       color = const Color(0xff19be6b);
     } else if (type == 'info') {

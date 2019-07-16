@@ -9,10 +9,17 @@ class ErrorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return SafeArea(
-      child: ExceptionMessage(
-        type: 'net',
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Theme.of(context).canvasColor,
+//        title: Text('发生错误，请返回重试'),
       ),
+      body: Center(
+        child: ExceptionMessage(
+          type: 'net',
+        ),
+      )
     );
   }
 }

@@ -50,7 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getHomePageData();
+//    getHomePageData();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      getHomePageData();
+    });
   }
 
 //  @override
@@ -165,35 +168,44 @@ class _MyHomePageState extends State<MyHomePage> {
       return Center(child: Loading(),);
     }
 
-    return SingleChildScrollView(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.height),
-        child: Column(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width * 0.575,
-              child: Swiper(
-                autoplay: false,
-                itemCount: homeData['swiper'].length,
-                itemBuilder: (BuildContext context,int index) {
-                  return Image(image: new CachedNetworkImageProvider(homeData['swiper'][index]['vod_pic_slide']), fit: BoxFit.fitHeight,);
-                },
-                pagination: new SwiperPagination(
-                  builder: DotSwiperPaginationBuilder(
-                    color: Colors.black54,
-                    activeColor: Colors.white,
-                  )
+    return Container(
+      color: Theme.of(context).canvasColor,
+      child: SingleChildScrollView(
+        child: new ConstrainedBox(
+          constraints: new BoxConstraints(
+            minHeight: 120.0,
+          ),
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width * 0.575,
+                child: Swiper(
+                  autoplay: false,
+                  itemCount: homeData['swiper'].length,
+                  itemBuilder: (BuildContext context,int index) {
+                    return Image(
+                      image: CachedNetworkImageProvider(homeData['swiper'][index]['vod_pic_slide']),
+                      fit: BoxFit.fill,
+                      width: MediaQuery.of(context).size.width,
+                    );
+                  },
+                  pagination: new SwiperPagination(
+                    builder: DotSwiperPaginationBuilder(
+                      color: Colors.black54,
+                      activeColor: Colors.white,
+                    )
+                  ),
+                  onTap: (index) {
+                    print(Uri.encodeComponent(currentSource['baseUrl']));
+                    String bodyJson = '{"id":"${homeData['swiper'][index]['vod_id']}","sourceUrl":"${Uri.encodeComponent(currentSource['baseUrl'])}","sourceName":"${currentSource['title']}"}';
+                    Routes.router.navigateTo(context, '/video/info/' + bodyJson);
+                  },
                 ),
-                onTap: (index) {
-                  print(Uri.encodeComponent(currentSource['baseUrl']));
-                  String bodyJson = '{"id":"${homeData['swiper'][index]['vod_id']}","sourceUrl":"${Uri.encodeComponent(currentSource['baseUrl'])}","sourceName":"${currentSource['title']}"}';
-                  Routes.router.navigateTo(context, '/video/info/' + bodyJson);
-                },
               ),
-            ),
-            BlankRow(),
-          ],
+              BlankRow(),
+            ],
+          ),
         ),
       ),
     );
@@ -218,24 +230,26 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   getHomePageData() async {
+    showDialog<Null>(
+      context: context,
+      builder: (_) => LoadingDialog()
+    );
     Map<String, dynamic> csInfoMap;
     String csInfo = await SharedPres.get('currectSourceInfo') ?? '';
     String vaInfo = await SharedPres.get('videoApiInfo') ?? '';
     print(await SharedPres.get('videoApiInfo'));
     if (vaInfo == '') {
-      Map<String, dynamic> tempVaInfoMap = await Request.get('https://common.aferica.site/common/video/index', context, closeLoading: false);
+      Map<String, dynamic> tempVaInfoMap = await Request.get('https://common.aferica.site/common/video/index', context, showLoading: false, closeLoading: false);
       vaInfo = json.encode(tempVaInfoMap['data']);
       await SharedPres.set('videoApiInfo', vaInfo);
-      print(vaInfo);
-      print(await SharedPres.get('videoApiInfo'));
     }
     Map<String, dynamic> vaInfoMap = json.decode(vaInfo);
 
     String vdBaseUrl = vaInfoMap['detail']['mainUrl'];
     await SharedPres.set('videoDetailBaseUrl', vdBaseUrl);
     if (csInfo == '') {
-      csInfoMap = vaInfoMap['source'][1];
-      csInfo = csInfoMap.toString();
+      csInfoMap = vaInfoMap['source'][0];
+      csInfo =json.encode(csInfoMap);
       await SharedPres.set('currectSourceInfo', csInfo);
     } else {
       csInfoMap = json.decode(csInfo);
@@ -246,10 +260,13 @@ class _MyHomePageState extends State<MyHomePage> {
       currentSourceTitle = csInfoMap['title'];
     });
     String url = 'https://common.aferica.site/common/video/mac/home?baseUrl=' + Uri.encodeComponent(csInfoMap['baseUrl']);
-    Map<String, dynamic> homeDataMap = await Request.get(url, context, showLoading: false);
+    Map<String, dynamic> homeDataMap = await Request.get(url, context, showLoading: false, closeLoading: true);
 //    await Request.get(csInfoMap['baseUrl'] + vaInfoMap['list']['mainUrl'], context, showLoading: false);
+    homeDataMap['data']['swiper'] = homeDataMap['data']['swiper'].take(5).toList();
+//    print(homeDataMap['data']['swiper'].length);
     setState(() {
       homeData = homeDataMap['data'];
+      hasError = false;
     });
 
   }

@@ -38,6 +38,8 @@ class Request {
     if (closeLoading) {
       Navigator.pop(context);
       if (res.statusCode != 200) {
+        print(res.statusCode);
+        print(res.statusCode!= 200);
         Routes.router.navigateTo(context, '/error');
         return {};
       }

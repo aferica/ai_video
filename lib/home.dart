@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List leftDrawerMenuVideo = [
     {'name': '视频源列表', 'value': 'VideoSource', 'path': 'VideoSource', 'icon': 0xe781},
-    {'name': '当前视频源', 'value': 'VideoSource', 'path': 'VideoSource', 'icon': 0xe780}
+    {'name': '', 'value': 'VideoSource', 'path': 'VideoSource', 'icon': 0xe780}
   ];
 
   List leftDrawerMenuMain = [
@@ -70,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    leftDrawerMenuVideo[1]['name'] = '当前视频源（' + currentSourceTitle + '）';
     // TODO: implement build
     return WillPopScope(
       child: Scaffold(
@@ -186,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   itemBuilder: (BuildContext context,int index) {
                     return Image(
                       image: CachedNetworkImageProvider(homeData['swiper'][index]['vod_pic_slide']),
-                      fit: BoxFit.fill,
+                      fit: BoxFit.fitHeight,
                       width: MediaQuery.of(context).size.width,
                     );
                   },

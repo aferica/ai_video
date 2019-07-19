@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
+import 'package:flt_video_player/flt_video_player.dart';
 
 import 'package:ai_video/components/BlankRow.dart';
 import 'package:ai_video/components/ExceptionMessage.dart';
@@ -34,6 +35,8 @@ class VideoInfoState extends State<VideoInfoPage> {
 
   IjkMediaController controller = IjkMediaController();
 
+  VideoPlayerController _controller;
+
   VideoInfoState({Key key, this.id, this.sourceName, this.sourceUrl});
 
   @override
@@ -44,6 +47,10 @@ class VideoInfoState extends State<VideoInfoPage> {
       getVideoInfo();
     });
     controller.setIjkPlayerOptions([TargetPlatform.android], createIJKOptions());
+
+    _controller = VideoPlayerController.path(
+        "https://github.com/RandyWei/flt_video_player/blob/master/example/SampleVideo_1280x720_30mb.mp4?raw=true")
+      ..initialize();
   }
 
   @override
@@ -52,6 +59,7 @@ class VideoInfoState extends State<VideoInfoPage> {
     super.dispose();
     // 销毁视频controller，避免后台继续播放
     controller.dispose();
+    _controller?.dispose();
   }
 
   @override
@@ -90,9 +98,13 @@ class VideoInfoState extends State<VideoInfoPage> {
               left: 0.0,
               right: 0.0,
               height: MediaQuery.of(context).size.width / 16 * 9,
-              child: Container(
-                height: MediaQuery.of(context).size.width / 16 * 9,
-                child: IjkPlayer(mediaController: controller),
+//              child: Container(
+//                height: MediaQuery.of(context).size.width / 16 * 9,
+//                child: IjkPlayer(mediaController: controller),
+//              ),
+              child: AspectRatio(
+                aspectRatio: 1.8,
+                child: VideoPlayer(_controller),
               ),
             ),
             Positioned(

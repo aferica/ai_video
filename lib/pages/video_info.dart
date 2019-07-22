@@ -131,7 +131,7 @@ class VideoInfoState extends State<VideoInfoPage> {
                                     ],
                                   ),
                                   Text('更新日期：' + videoInfo['vodvod_time_up'], style: TextStyle(fontSize: 12.0, color: Colors.black54, height: 1.5), maxLines: 1,),
-                                  Text(videoInfo['vod_content'], style: TextStyle(fontSize: 12.0, color: Colors.black54,), maxLines: 3,)
+                                  Text(videoInfo['vod_content'], style: TextStyle(fontSize: 12.0, color: Colors.black54,), maxLines: 2,)
                                 ],
                               ),
                             ),
@@ -162,7 +162,7 @@ class VideoInfoState extends State<VideoInfoPage> {
 //                              ]
 //                            ),),
 //                          ),
-                                  BlankRow(color: Colors.white, height: 45.0,),
+                                  BlankRow(color: Theme.of(context).canvasColor, height: 35.0,),
                                   Text(videoInfo['vod_score'], textAlign: TextAlign.center, style: TextStyle(fontSize: 28.0, color: Colors.redAccent),),
                                   Text(videoInfo['vod_score_num'].toString() + '人', style: TextStyle(fontSize: 12.0, color: Colors.black54,), maxLines: 1,),
                                 ],

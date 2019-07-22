@@ -262,6 +262,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     String url = 'https://common.aferica.site/common/video/mac/home?baseUrl=' + Uri.encodeComponent(csInfoMap['baseUrl']);
     Map<String, dynamic> homeDataMap = await Request.get(url, context, showLoading: false, closeLoading: true);
+    if (homeDataMap == null && homeDataMap == {}) {
+      return;
+    }
 //    await Request.get(csInfoMap['baseUrl'] + vaInfoMap['list']['mainUrl'], context, showLoading: false);
     homeDataMap['data']['swiper'] = homeDataMap['data']['swiper'].take(5).toList();
 //    print(homeDataMap['data']['swiper'].length);

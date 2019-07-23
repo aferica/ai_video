@@ -8,6 +8,7 @@ import 'package:ai_video/components/BlankRow.dart';
 import 'package:ai_video/components/Loading.dart';
 import 'package:ai_video/components/Dialog.dart';
 import 'package:ai_video/components/ExceptionMessage.dart';
+import 'package:ai_video/components/MoreInfoContainer.dart';
 
 import 'package:ai_video/utils/request.dart';
 import 'utils/route.dart';
@@ -205,6 +206,38 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               BlankRow(),
+              MoreInfoContainer(
+                title: '电影',
+                needMore: true,
+                child: Container(
+                  height: 160,
+                  child: Center(
+                    child: Loading(),
+                  ),
+                ),
+              ),
+              BlankRow(),
+              MoreInfoContainer(
+                title: '电视剧',
+                needMore: true,
+                child: Container(
+                  height: 160,
+                  child: Center(
+                    child: Loading(),
+                  ),
+                ),
+              ),
+              BlankRow(),
+              MoreInfoContainer(
+                title: '综艺',
+                needMore: true,
+                child: Container(
+                  height: 160,
+                  child: Center(
+                    child: Loading(),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

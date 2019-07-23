@@ -31,7 +31,6 @@ dependencies:
   flutter_spinkit: ^3.1.0
   flutter_ijkplayer: ^0.3.0
   shared_preferences: ^0.5.3
-  flt_video_player: ^0.0.2
 
 dev_dependencies:
   flutter_test:

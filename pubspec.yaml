@@ -28,9 +28,11 @@ dependencies:
   fluttertoast: ^3.1.0
   cached_network_image: ^1.0.0
   flutter_swiper: ^1.1.6
-  flutter_spinkit: ^3.1.0
   flutter_ijkplayer: ^0.3.0
   shared_preferences: ^0.5.3
+  aferica_flutter_components:
+    git:
+      url: https://github.com/aferica/aferica_flutter_components.git
 
 dev_dependencies:
   flutter_test:

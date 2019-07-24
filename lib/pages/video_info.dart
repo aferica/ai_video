@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 
-import 'package:ai_video/components/BlankRow.dart';
-import 'package:ai_video/components/ExceptionMessage.dart';
-import 'package:ai_video/components/Loading.dart';
-import 'package:ai_video/components/MyImage.dart';
-import 'package:ai_video/components/ButtonTag.dart';
-//import 'package:ai_video/components/VideoPlayer.dart';
+import 'package:aferica_flutter_components/components/BlankRow.dart';
+import 'package:aferica_flutter_components/components/ExceptionMessage.dart';
+import 'package:aferica_flutter_components/components/Loading.dart';
+import 'package:aferica_flutter_components/components/MyImage.dart';
+import 'package:aferica_flutter_components/components/ButtonTag.dart';
 
 import 'package:ai_video/utils/request.dart';
 

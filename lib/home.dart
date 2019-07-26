@@ -1,4 +1,3 @@
-import 'package:ai_video/components/MyImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -10,6 +9,7 @@ import 'package:aferica_flutter_components/components/Loading.dart';
 import 'package:aferica_flutter_components/components/Dialog.dart';
 import 'package:aferica_flutter_components/components/ExceptionMessage.dart';
 import 'package:aferica_flutter_components/components/MoreInfoContainer.dart';
+import 'package:aferica_flutter_components/components/MyImage.dart';
 
 import 'package:ai_video/utils/request.dart';
 import 'utils/route.dart';
@@ -224,7 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   height: 160,
                   child: Center(
-                    child: Loading(),
+                    child: _buildVideoItem(context, homeData['dianshiju']),
                   ),
                 ),
               ),
@@ -235,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   height: 160,
                   child: Center(
-                    child: Loading(),
+                    child: _buildVideoItem(context, homeData['zongyi']),
                   ),
                 ),
               ),
@@ -268,7 +268,7 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Container(
                 width: 100,
-                height: 150,
+                height: 200,
                 padding: const EdgeInsets.only(left: 10, top: 10),
                 child: new Column(
                   children: <Widget>[

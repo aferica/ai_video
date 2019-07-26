@@ -1,3 +1,4 @@
+import 'package:ai_video/components/MyImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -212,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   height: 160,
                   child: Center(
-                    child: Loading(),
+                    child: _buildVideoItem(context, homeData['dianying']),
                   ),
                 ),
               ),
@@ -241,6 +242,54 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildVideoItem(BuildContext context, var data) {
+    return Container(
+      height: 200,
+      width: MediaQuery.of(context).size.width,
+      child: new ListView.builder(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.all(0.0),
+        primary: false,
+        //确定每一个item的高度 会让item加载更加高效
+        itemExtent: MediaQuery.of(context).size.width / 3,
+        //内容适配
+        shrinkWrap: true,
+        //item 数量
+        itemCount: data.length,
+        itemBuilder: (BuildContext _content,int i) {
+          if(i < data.length) {
+            return new GestureDetector(
+              onTap: () {
+//                Routes.router.navigateTo(context, '/japav/actor/info/${actors[i]['info'][0]['_id']}');
+              },
+              child: Container(
+                width: 100,
+                height: 150,
+                padding: const EdgeInsets.only(left: 10, top: 10),
+                child: new Column(
+                  children: <Widget>[
+                    new Align(
+                      child: new Container(
+                        width: 100,
+                        height: 150,
+                        child: MyNetWorkImage(
+                          src: data[i]['vod_pic']
+                        ),
+                      ),
+                    ),
+                    new Text(data[i]['vod_name'],
+                      style: new TextStyle(fontSize: 14, height: 1.5),
+                      maxLines: 1,)
+                  ],
+                ),
+              ),
+            );
+          };
+        }
       ),
     );
   }

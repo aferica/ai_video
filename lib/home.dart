@@ -5,11 +5,11 @@ import 'dart:convert';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'package:ai_video/components/BlankRow.dart';
-import 'package:ai_video/components/Loading.dart';
-import 'package:ai_video/components/Dialog.dart';
-import 'package:ai_video/components/ExceptionMessage.dart';
-import 'package:ai_video/components/MoreInfoContainer.dart';
+import 'package:aferica_flutter_components/components/BlankRow.dart';
+import 'package:aferica_flutter_components/components/Loading.dart';
+import 'package:aferica_flutter_components/components/Dialog.dart';
+import 'package:aferica_flutter_components/components/ExceptionMessage.dart';
+import 'package:aferica_flutter_components/components/MoreInfoContainer.dart';
 
 import 'package:ai_video/utils/request.dart';
 import 'utils/route.dart';

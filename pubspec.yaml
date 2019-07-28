@@ -31,8 +31,9 @@ dependencies:
   flutter_ijkplayer: ^0.3.0
   shared_preferences: ^0.5.3
   aferica_flutter_components:
-    git:
-      url: https://github.com/aferica/aferica_flutter_components.git
+    path: ../aferica_flutter_components
+#    git:
+#      url: https://github.com/aferica/aferica_flutter_components.git
 
 dev_dependencies:
   flutter_test:

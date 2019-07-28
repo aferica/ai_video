@@ -4,11 +4,9 @@ packages:
   aferica_flutter_components:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "3df9e62cb60afedeb33e134d767a2793d06ce6a1"
-      url: "https://github.com/aferica/aferica_flutter_components.git"
-    source: git
+      path: "../aferica_flutter_components"
+      relative: true
+    source: path
     version: "0.0.2"
   async:
     dependency: transitive

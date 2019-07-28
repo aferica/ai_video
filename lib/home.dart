@@ -4,12 +4,7 @@ import 'dart:convert';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'package:aferica_flutter_components/components/BlankRow.dart';
-import 'package:aferica_flutter_components/components/Loading.dart';
-import 'package:aferica_flutter_components/components/Dialog.dart';
-import 'package:aferica_flutter_components/components/ExceptionMessage.dart';
-import 'package:aferica_flutter_components/components/MoreInfoContainer.dart';
-import 'package:aferica_flutter_components/components/MyImage.dart';
+import 'package:aferica_flutter_components/aferica_flutter_components.dart';
 
 import 'package:ai_video/utils/request.dart';
 import 'utils/route.dart';
@@ -25,7 +20,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   List leftDrawerMenuVideo = [
-    {'name': '视频源列表', 'value': 'VideoSource', 'path': 'VideoSource', 'icon': 0xe781},
+    {'name': '视频源列表', 'value': 'VideoSource', 'path': '/source', 'icon': 0xe781},
     {'name': '', 'value': 'VideoSource', 'path': 'VideoSource', 'icon': 0xe780}
   ];
 
@@ -102,6 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       itemBuilder: (BuildContext context, int index) {
                         final Map item = leftDrawerMenuVideo[index];
                         return ListTile(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Routes.router.navigateTo(context, item['path']);
+                          },
                           leading: Icon(IconData(item['icon'], fontFamily: 'aliIconFont'), size: 24.0,),
                           isThreeLine: false,
                           title: Text(item['name']),
@@ -208,10 +207,32 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               BlankRow(),
               MoreInfoContainer(
+                title: '院线热映',
+                needMore: true,
+                child: Container(
+                  height: 200,
+                  child: Center(
+                    child: _buildVideoItem(context, homeData['hot']),
+                  ),
+                ),
+              ),
+              BlankRow(),
+              MoreInfoContainer(
+                title: '最新',
+                needMore: true,
+                child: Container(
+                  height: 200,
+                  child: Center(
+                    child: _buildVideoItem(context, homeData['new']),
+                  ),
+                ),
+              ),
+              BlankRow(),
+              MoreInfoContainer(
                 title: '电影',
                 needMore: true,
                 child: Container(
-                  height: 160,
+                  height: 200,
                   child: Center(
                     child: _buildVideoItem(context, homeData['dianying']),
                   ),
@@ -222,7 +243,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: '电视剧',
                 needMore: true,
                 child: Container(
-                  height: 160,
+                  height: 200,
                   child: Center(
                     child: _buildVideoItem(context, homeData['dianshiju']),
                   ),
@@ -233,9 +254,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: '综艺',
                 needMore: true,
                 child: Container(
-                  height: 160,
+                  height: 200,
                   child: Center(
                     child: _buildVideoItem(context, homeData['zongyi']),
+                  ),
+                ),
+              ),
+              BlankRow(),
+              MoreInfoContainer(
+                title: '动漫',
+                needMore: true,
+                child: Container(
+                  height: 200,
+                  child: Center(
+                    child: _buildVideoItem(context, homeData['dongman']),
                   ),
                 ),
               ),
@@ -248,8 +280,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildVideoItem(BuildContext context, var data) {
     return Container(
-      height: 200,
-      width: MediaQuery.of(context).size.width,
       child: new ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.all(0.0),
@@ -264,21 +294,21 @@ class _MyHomePageState extends State<MyHomePage> {
           if(i < data.length) {
             return new GestureDetector(
               onTap: () {
-//                Routes.router.navigateTo(context, '/japav/actor/info/${actors[i]['info'][0]['_id']}');
+                String bodyJson = '{"id":"${data[i]['id']}","sourceUrl":"${Uri.encodeComponent(currentSource['baseUrl'])}","sourceName":"${currentSource['title']}"}';
+                Routes.router.navigateTo(context, '/video/info/' + bodyJson);
               },
               child: Container(
                 width: 100,
-                height: 200,
+                height: 250,
                 padding: const EdgeInsets.only(left: 10, top: 10),
                 child: new Column(
                   children: <Widget>[
                     new Align(
-                      child: new Container(
+                      child: MyNetWorkImage(
                         width: 100,
                         height: 150,
-                        child: MyNetWorkImage(
-                          src: data[i]['vod_pic']
-                        ),
+                        fit: BoxFit.cover,
+                        src: data[i]['vod_pic']
                       ),
                     ),
                     new Text(data[i]['vod_name'],
@@ -334,6 +364,7 @@ class _MyHomePageState extends State<MyHomePage> {
       csInfoMap = vaInfoMap['source'][0];
       csInfo =json.encode(csInfoMap);
       await SharedPres.set('currectSourceInfo', csInfo);
+      await SharedPres.setInt('currentSourceId', 0);
     } else {
       csInfoMap = json.decode(csInfo);
     }

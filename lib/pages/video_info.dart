@@ -1,13 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 
-import 'package:aferica_flutter_components/components/BlankRow.dart';
-import 'package:aferica_flutter_components/components/ExceptionMessage.dart';
-import 'package:aferica_flutter_components/components/Loading.dart';
-import 'package:aferica_flutter_components/components/MyImage.dart';
-import 'package:aferica_flutter_components/components/ButtonTag.dart';
+import 'package:aferica_flutter_components/aferica_flutter_components.dart';
 
 import 'package:ai_video/utils/request.dart';
+import 'package:ai_video/utils/shared_pres.dart';
 
 class VideoInfoPage extends StatefulWidget {
   final String id;
@@ -71,6 +69,9 @@ class VideoInfoState extends State<VideoInfoPage> {
 
     if (videoInfo == null) {
       return Scaffold(
+        appBar: AppBar(
+          title: Text('影片信息'),
+        ),
         body: Center(
           child: Loading(),
         ),
@@ -289,6 +290,10 @@ class VideoInfoState extends State<VideoInfoPage> {
     if (playUrl.indexOf('.m3u8') < 0) {
       playUrl = 'http://api.keletj.com/?url=' + playUrl;
     }
+    List<String> history = await SharedPres.getList('historyList') ?? [];
+    print(history);
+    history.add(jsonEncode(videoInfoMap['data']));
+    await SharedPres.setList('historyList', history);
     setState(() {
       videoInfo = videoInfoMap['data'];
       selectPlayUrl = playUrl;

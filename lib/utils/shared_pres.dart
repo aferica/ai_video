@@ -16,6 +16,11 @@ class SharedPres {
     return prefs.getInt(key);
   }
 
+  static Future<List> getList(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getStringList(key);
+  }
+
   static Future<bool> set(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setString(key, value);
@@ -29,5 +34,10 @@ class SharedPres {
   static Future<bool> setInt(String key, int value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setInt(key, value);
+  }
+
+  static Future<bool> setList(String key, List value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setStringList(key, value);
   }
 }

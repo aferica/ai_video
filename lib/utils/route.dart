@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:ai_video/home.dart';
 import 'package:ai_video/pages/video_info.dart';
 import 'package:ai_video/pages/sources.dart';
+import 'package:ai_video/pages/history.dart';
 
 import 'package:ai_video/pages/error.dart';
 
@@ -12,6 +13,7 @@ class Routes {
   static String home = '/';
   static String videoInfo = '/video/info/:data';
   static String source = '/source';
+  static String history = '/history';
 
   static String error = '/error';
 
@@ -32,6 +34,11 @@ class Routes {
 
     router.define(source,
         handler: Handler(handlerFunc: (context, params) => SourcesPage()),
+        transitionType: TransitionType.inFromRight
+    );
+
+    router.define(history,
+        handler: Handler(handlerFunc: (context, params) => HistoryPage()),
         transitionType: TransitionType.inFromRight
     );
 

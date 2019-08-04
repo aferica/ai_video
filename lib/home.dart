@@ -26,7 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List leftDrawerMenuMain = [
     {'name': '搜索影片', 'value': 'VideoSource', 'path': 'VideoSource', 'icon': 0xe73b},
-    {'name': '历史记录', 'value': 'VideoSource', 'path': 'VideoSource', 'icon': 0xe73a},
+    {'name': '历史记录', 'value': 'VideoSource', 'path': '/history', 'icon': 0xe73a},
     {'name': '我的收藏', 'value': 'Setting', 'path': 'Setting', 'icon': 0xe7e2},
     {'name': '我的追更', 'value': 'Setting', 'path': 'Setting', 'icon': 0xe7e1},
     {'name': '我的下载', 'value': 'Setting', 'path': 'Setting', 'icon': 0xe71a},
@@ -119,6 +119,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       itemBuilder: (BuildContext context, int index) {
                         final Map item = leftDrawerMenuMain[index];
                         return ListTile(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Routes.router.navigateTo(context, item['path']);
+                          },
                           leading: Icon(IconData(item['icon'], fontFamily: 'aliIconFont'), size: 24.0,),
                           isThreeLine: false,
                           title: Text(item['name']),
@@ -137,6 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       itemBuilder: (BuildContext context, int index) {
                         final Map item = leftDrawerMenuSetting[index];
                         return ListTile(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                            Routes.router.navigateTo(context, item['path']);
+                          },
                           leading: Icon(IconData(item['icon'], fontFamily: 'aliIconFont'), size: 24.0,),
                           isThreeLine: false,
                           title: Text(item['name']),

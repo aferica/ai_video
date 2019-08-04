@@ -194,11 +194,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   autoplay: false,
                   itemCount: homeData['swiper'].length,
                   itemBuilder: (BuildContext context,int index) {
-                    return Image(
-                      image: CachedNetworkImageProvider(homeData['swiper'][index]['vod_pic_slide']),
-                      fit: BoxFit.fitHeight,
-                      width: MediaQuery.of(context).size.width,
-                    );
+                    return MyNetWorkImage(src: homeData['swiper'][index]['vod_pic_slide']);
+//                    return Image(
+//                      image: CachedNetworkImageProvider(homeData['swiper'][index]['vod_pic_slide']),
+//                      fit: BoxFit.fitHeight,
+//                      width: MediaQuery.of(context).size.width,
+//                    );
                   },
                   pagination: new SwiperPagination(
                     builder: DotSwiperPaginationBuilder(

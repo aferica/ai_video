@@ -4,7 +4,7 @@ packages:
   aferica_flutter_components:
     dependency: "direct main"
     description:
-      path: "../aferica_flutter_components"
+      path: "..\\aferica_flutter_components"
       relative: true
     source: path
     version: "0.0.2"

@@ -290,9 +290,12 @@ class VideoInfoState extends State<VideoInfoPage> {
     if (playUrl.indexOf('.m3u8') < 0) {
       playUrl = 'http://api.keletj.com/?url=' + playUrl;
     }
+    videoInfoMap['data']['last_time'] = new DateTime.now().millisecondsSinceEpoch;
     List<String> history = await SharedPres.getList('historyList') ?? [];
     print(history);
     history.add(jsonEncode(videoInfoMap['data']));
+    // 去重
+    history.toSet().toList();
     await SharedPres.setList('historyList', history);
     setState(() {
       videoInfo = videoInfoMap['data'];

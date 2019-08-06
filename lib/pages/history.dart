@@ -69,6 +69,37 @@ class HistoryPageState extends State<HistoryPage> {
                 String bodyJson = '{"id":"${info['vod_id']}","sourceUrl":"${Uri.encodeComponent(currentSource['baseUrl'])}","sourceName":"${currentSource['title']}"}';
                 Routes.router.navigateTo(context, '/video/info/' + bodyJson);
               },
+              onLongPress: () {
+                showDialog<Null>(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: Text('确定删除本条记录吗？'),
+                    actions: <Widget>[
+                      ButtonTag(
+                          size: 'small',
+                          type: 'danger',
+                          hairline: true,
+                          text: '确定',
+                          onClick: () async {
+                            history.removeRange(index, index + 1);
+                            setState(() {
+                              history = history;
+                            });
+                            await SharedPres.setList('historyList', history);
+                            Navigator.of(context).pop();
+                          },
+                      ),
+                      ButtonTag(
+                          size: 'small',
+                          type: 'info',
+                          hairline: true,
+                          text: '取消',
+                          onClick: () { Navigator.of(context).pop();}
+                      ),
+                    ],
+                  )
+                );
+              },
               isThreeLine: true,
               leading: MyNetWorkImage(
                 src: info['vod_pic'],

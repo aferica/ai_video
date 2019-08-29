@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:aferica_flutter_components/components/ExceptionMessage.dart';
+import 'package:aferica_flutter_components/aferica_flutter_components.dart';
 
 class ErrorPage extends StatelessWidget {
 

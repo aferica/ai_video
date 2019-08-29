@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 //import 'package:html/dom.dart';
 //import 'dart:convert';
 
-import 'package:aferica_flutter_components/components/Dialog.dart';
+import 'package:aferica_flutter_components/aferica_flutter_components.dart';
 
 import 'package:ai_video/utils/route.dart';
 
